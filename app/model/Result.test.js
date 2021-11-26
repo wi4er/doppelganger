@@ -1,6 +1,5 @@
-const
-    Form = require("./Form"),
-    Result = require("./Result");
+const Form = require("./Form");
+const Result = require("./Result");
 const {WrongIdError} = require("../exception/WrongIdError");
 
 afterEach(() => require("../model").clearDatabase());

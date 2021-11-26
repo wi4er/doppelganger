@@ -1,6 +1,5 @@
-const
-    request = require("supertest"),
-    app = require(".");
+const request = require("supertest");
+const app = require("..");
 
 afterEach(() => require("../model").clearDatabase());
 
@@ -10,7 +9,10 @@ describe("Result entity", function () {
             await request(app)
                 .get("/result/")
                 .set(...require("./mock/auth"))
-                .expect(200);
+                .expect(200)
+                .then(res => {
+                    expect(res.body).toHaveLength(0);
+                });
         });
 
         test("Shouldn't get without permission", async () => {
@@ -44,7 +46,13 @@ describe("Result entity", function () {
                         value: "VALUE",
                     }]
                 })
-                .expect(201);
+                .expect(201)
+                .then(res => {
+                    expect(res.body.form).toBe("FORM");
+                    expect(res.body.field).toHaveLength(1);
+                    expect(res.body.field[0].field).toBe("FIELD");
+                    expect(res.body.field[0].value).toEqual(["VALUE"]);
+                });
         });
 
         test("Should post result and get", async () => {
@@ -120,7 +128,13 @@ describe("Result entity", function () {
                         value: "VALUE_3",
                     }]
                 })
-                .expect(201);
+                .expect(201)
+                .then(res => {
+                    expect(res.body.field).toHaveLength(3);
+                    expect(res.body.field[0].value).toEqual(["VALUE_1"]);
+                    expect(res.body.field[1].value).toEqual(["VALUE_2"]);
+                    expect(res.body.field[2].value).toEqual(["VALUE_3"]);
+                });
         });
 
         test("Shouldn't post result by form", async () => {

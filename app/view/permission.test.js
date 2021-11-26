@@ -1,6 +1,5 @@
-const
-    request = require("supertest"),
-    app = require(".");
+const request = require("supertest");
+const app = require("..");
 
 afterEach(() => require("../model").clearDatabase());
 

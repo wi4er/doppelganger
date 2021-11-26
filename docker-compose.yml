@@ -1,0 +1,39 @@
+version: "2.2"
+
+services:
+  mongo:
+    image: mongo:5.0.4
+    container_name: doppelganger_mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - ./data/mongo:/data/db:rw
+      - ./init:/docker-entrypoint-initdb.d
+
+  auth:
+    image: node:latest
+    container_name: doppelganger_api
+    working_dir: /app
+    command: npm start
+    environment:
+      DB_HOST: mongo
+      DB_USER: auth
+      DB_PASSWORD: example
+      CACHE_HOST: cache
+    links:
+      - mongo
+      - cache
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+
+  cache:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./data/redis:/data/

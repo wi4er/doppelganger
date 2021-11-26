@@ -1,33 +1,22 @@
 const mongoose = require("mongoose");
 
-const methodTypes = [
-    "GET",
-    "POST",
-    "PUT",
-    "DELETE"
-];
 
-const entityTypes = [
-    "FORM",
-    "RESULT",
-    "PERMISSION",
-];
 
 const PermissionSchema = new mongoose.Schema({
     timestamp: Date,
     entity: {
         type: String,
-        enum: entityTypes,
+        enum: require("../permission/entity"),
         required: true,
     },
     method: {
         type: String,
-        enum: methodTypes,
+        enum: require("../permission/method"),
         required: true,
     },
     group: {
         type: Number,
-        default: 0,
+        required: true,
     },
 });
 

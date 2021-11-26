@@ -1,0 +1,5 @@
+/data
+/.idea
+/init
+/build.sh
+/docker-compose.yml

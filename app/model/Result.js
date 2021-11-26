@@ -1,7 +1,5 @@
-const
-    mongoose = require("mongoose"),
-    WrongIdError = require("../exception/WrongIdError"),
-    Form = require("./Form");
+const mongoose = require("mongoose");
+const Form = require("./Form");
 const WrongRefError = require("../exception/WrongRefError");
 
 const ResultFieldSchema = new mongoose.Schema({
