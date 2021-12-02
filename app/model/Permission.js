@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 
-
-
 const PermissionSchema = new mongoose.Schema({
     timestamp: Date,
     entity: {
@@ -24,10 +22,6 @@ PermissionSchema.pre("save", function(next) {
     this.timestamp = new Date();
 
     next();
-});
-
-PermissionSchema.post("validate", doc => {
-
 });
 
 module.exports = mongoose.model("permission", PermissionSchema);

@@ -1,6 +1,8 @@
 const WrongIdError = require("../exception/WrongIdError");
 const PermissionError = require("../exception/PermissionError");
 const WrongRefError = require("../exception/WrongRefError");
+const {Error: {ValidationError}, Error} = require("mongoose");
+const {MongoServerError} = require("mongodb")
 
 function formatError(err) {
     return {
@@ -10,7 +12,6 @@ function formatError(err) {
 
 module.exports = (err, req, res, next) => {
     console.log(err.message);
-    
     
     switch (err.constructor) {
         case WrongIdError: {
@@ -26,6 +27,18 @@ module.exports = (err, req, res, next) => {
         }
 
         case WrongRefError: {
+            res.status(400);
+
+            break;
+        }
+
+        case Error: {
+            res.status(400);
+
+            break;
+        }
+
+        case MongoServerError: {
             res.status(400);
 
             break;

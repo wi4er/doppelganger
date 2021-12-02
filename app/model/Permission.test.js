@@ -5,7 +5,7 @@ afterAll(() => require("../model").disconnect());
 const Permission = require("./Permission");
 
 describe("Permission result", () => {
-    describe("Permission adding", () => {
+    describe("Permission fields", () => {
         test("Should create empty permission", async () => {
             await new Permission({
                 entity: "FORM",

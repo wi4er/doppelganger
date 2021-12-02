@@ -29,7 +29,7 @@ class Environment {
     }
 
     get DB_URL() {
-        return process.env.DB_NAME;
+        return process.env.DB_URL;
     }
 
     get USE_SSL() {
@@ -38,10 +38,6 @@ class Environment {
 
     get SECRET() {
         return process.env.SECRET || "hello world !";
-    }
-
-    CACHE_PATH() {
-        return process.env.CACHE_PATH;
     }
 }
 

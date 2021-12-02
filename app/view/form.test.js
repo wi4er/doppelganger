@@ -4,7 +4,7 @@ const app = require("..");
 afterEach(() => require("../model").clearDatabase());
 
 describe("Form entity", function () {
-    describe("Form getting", () => {
+    describe("Form fields", () => {
         test("Should get list", async () => {
             await request(app)
                 .get("/form/")
@@ -12,9 +12,7 @@ describe("Form entity", function () {
                 .expect(200)
                 .expect(res => expect(res.body).toEqual([]));
         });
-    });
 
-    describe("Form posting", () => {
         test("Should post form", async () => {
             await request(app)
                 .post("/form/")
@@ -65,12 +63,12 @@ describe("Form entity", function () {
                 .post("/form/")
                 .set(...require("./mock/auth"))
                 .send({_id: "FORM1"})
-                .expect(500);
+                .expect(400);
         });
     });
 
-    describe("Form posting with fields", () => {
-        test("Should post with filed", async () => {
+    describe("Form with fields", () => {
+        test("Should post with field", async () => {
             await request(app)
                 .post("/form/")
                 .set(...require("./mock/auth"))
@@ -81,33 +79,29 @@ describe("Form entity", function () {
                         name: "NAME"
                     }]
                 })
-                .expect(201);
+                .expect(201)
+                .then(result => {
+                    expect(result.body._id).toBe("FORM3")
+                    expect(result.body.field).toHaveLength(1);
+                    expect(result.body.field[0].slug).toBe("FIELD");
+                    expect(result.body.field[0].name).toBe("NAME");
+                });
         });
 
         test("Should post many forms with fields", async () => {
-            await request(app)
-                .post("/form/")
-                .set(...require("./mock/auth"))
-                .send({
-                    _id: "FORM1",
-                    field: [{
-                        slug: "FIELD",
-                        name: "NAME"
-                    }]
-                })
-                .expect(201);
-
-            await request(app)
-                .post("/form/")
-                .set(...require("./mock/auth"))
-                .send({
-                    _id: "FORM2",
-                    field: [{
-                        slug: "FIELD",
-                        name: "NAME"
-                    }]
-                })
-                .expect(201);
+            for (let i = 0; i < 10; i++) {
+                await request(app)
+                    .post("/form/")
+                    .set(...require("./mock/auth"))
+                    .send({
+                        _id: `FORM${i}`,
+                        field: [{
+                            slug: "FIELD",
+                            name: "NAME",
+                        }]
+                    })
+                    .expect(201);
+            }
         });
 
         test("Shouldn't post with filed same slug", async () => {
