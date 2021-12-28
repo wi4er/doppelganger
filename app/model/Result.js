@@ -2,18 +2,16 @@ const mongoose = require("mongoose");
 const Form = require("./Form");
 const WrongRefError = require("../exception/WrongRefError");
 
-const ResultFieldSchema = new mongoose.Schema({
-    value: [String],
-    field: String,
-});
-
 const ResultSchema = new mongoose.Schema({
     timestamp: Date,
     form: {
         type: String,
         ref: Form,
     },
-    field: [ResultFieldSchema],
+    field: {
+        type: Map,
+        of: [String],
+    },
 });
 
 ResultSchema.pre("save", function (next) {
@@ -35,16 +33,16 @@ ResultSchema.post("validate", async function (doc) {
         "Wrong form type!",
     );
 
-    for (const field of doc.field) {
+    for (const field of doc.field.keys()) {
         WrongRefError.assert(
-            form.field.find(item => item.slug === field.field),
-            `Field with slug ${field.field} not found!`,
+            form.field.find(item => item.slug === field),
+            `Field with slug ${field} not found!`,
         );
     }
 
     for (const source of form.field) {
         WrongRefError.assert(
-            !source.required || doc.field.find(item => item.field === source.slug),
+            !source.required || [...doc.field.keys()].find(item => item.field === source.slug),
             `Field ${source.slug} population required!`,
         );
     }

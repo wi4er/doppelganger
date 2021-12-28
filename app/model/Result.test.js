@@ -18,9 +18,9 @@ describe("Form result", () => {
 
             await new Result({
                 form: "FORM",
-                field: [
-                    {field: "FIELD", value: "VALUE"}
-                ]
+                field: {
+                    "FIELD": "VALUE"
+                }
             }).save();
         });
 
@@ -50,9 +50,9 @@ describe("Form result", () => {
             await expect(
                 new Result({
                     form: "FORM",
-                    field: [
-                        {field: "WRONG", value: "VALUE"}
-                    ]
+                    field: {
+                        "WRONG": "VALUE"
+                    }
                 }).save()
             ).rejects.toThrow(WrongIdError);
         });
@@ -69,16 +69,17 @@ describe("Form result", () => {
             await expect(
                 new Result({
                     form: "FORM",
-                    field: [
-                        {field: "CORRECT", value: "VALUE"},
-                        {field: "WRONG", value: "VALUE"},
-                    ]
+                    field: {
+                        "CORRECT": "VALUE",
+                        "WRONG": "VALUE",
+                    }
                 }).save()
             ).rejects.toThrow("Field with slug WRONG not found!");
         });
     });
 
     describe("Result updating", () => {
+
 
     });
 

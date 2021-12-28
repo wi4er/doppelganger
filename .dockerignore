@@ -3,3 +3,5 @@
 /init
 /build.sh
 /docker-compose.yml
+/.git
+

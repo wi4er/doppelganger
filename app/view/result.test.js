@@ -41,17 +41,13 @@ describe("Result entity", function () {
                 .set(...require("./mock/auth"))
                 .send({
                     form: "FORM",
-                    field: [{
-                        field: "FIELD",
-                        value: "VALUE",
-                    }]
+                    field: {"FIELD": "VALUE"}
                 })
                 .expect(201)
                 .then(res => {
                     expect(res.body.form).toBe("FORM");
-                    expect(res.body.field).toHaveLength(1);
-                    expect(res.body.field[0].field).toBe("FIELD");
-                    expect(res.body.field[0].value).toEqual(["VALUE"]);
+                    expect(Object.keys(res.body.field)).toHaveLength(1);
+                    expect(res.body.field["FIELD"]).toEqual(["VALUE"]);
                 });
         });
 
@@ -73,10 +69,7 @@ describe("Result entity", function () {
                 .set(...require("./mock/auth"))
                 .send({
                     form: "FORM",
-                    field: [{
-                        field: "FIELD",
-                        value: "VALUE",
-                    }]
+                    field: {"FIELD": "VALUE"}
                 })
                 .expect(201)
                 .then(res => res.body);
@@ -87,9 +80,8 @@ describe("Result entity", function () {
                 .expect(200)
                 .then(res => {
                     expect(res.body.form).toBe("FORM");
-                    expect(res.body.field.length).toBe(1);
-                    expect(res.body.field[0].field).toEqual("FIELD");
-                    expect(res.body.field[0].value).toEqual(["VALUE"]);
+                    expect(Object.keys(res.body.field)).toHaveLength(1);
+                    expect(res.body.field["FIELD"]).toEqual(["VALUE"]);
                 });
         });
 
@@ -117,23 +109,18 @@ describe("Result entity", function () {
                 .set(...require("./mock/auth"))
                 .send({
                     form: "FORM",
-                    field: [{
-                        field: "FIELD_1",
-                        value: "VALUE_1",
-                    }, {
-                        field: "FIELD_2",
-                        value: "VALUE_2",
-                    }, {
-                        field: "FIELD_3",
-                        value: "VALUE_3",
-                    }]
+                    field: {
+                        "FIELD_1": "VALUE_1",
+                        "FIELD_2": "VALUE_2",
+                        "FIELD_3": "VALUE_3",
+                    }
                 })
                 .expect(201)
                 .then(res => {
-                    expect(res.body.field).toHaveLength(3);
-                    expect(res.body.field[0].value).toEqual(["VALUE_1"]);
-                    expect(res.body.field[1].value).toEqual(["VALUE_2"]);
-                    expect(res.body.field[2].value).toEqual(["VALUE_3"]);
+                    expect(Object.keys(res.body.field)).toHaveLength(3);
+                    expect(res.body.field["FIELD_1"]).toEqual(["VALUE_1"]);
+                    expect(res.body.field["FIELD_2"]).toEqual(["VALUE_2"]);
+                    expect(res.body.field["FIELD_3"]).toEqual(["VALUE_3"]);
                 });
         });
 
@@ -155,10 +142,9 @@ describe("Result entity", function () {
                 .set(...require("./mock/auth"))
                 .send({
                     form: "FORM",
-                    field: [{
-                        field: "WRONG",
-                        value: "VALUE",
-                    }]
+                    field: {
+                        "WRONG": "VALUE",
+                    }
                 })
                 .expect(400);
         });
@@ -184,7 +170,7 @@ describe("Result entity", function () {
                 .set(...require("./mock/auth"))
                 .send({
                     form: "FORM",
-                    field: [{field: "CORRECT", value: "VALUE"}]
+                    field: {"CORRECT": "VALUE"}
                 })
                 .expect(201);
         });
@@ -213,19 +199,19 @@ describe("Result entity", function () {
                 .set(...require("./mock/auth"))
                 .send({
                     form: "FORM",
-                    field: [
-                        {field: "CORRECT", value: "VALUE"},
-                        {field: "REQUIRED", value: "VALUE"},
-                        {field: "NOT_REQUIRED", value: "VALUE"},
-                    ]
+                    field: {
+                        "CORRECT": "VALUE",
+                        "REQUIRED": "VALUE",
+                        "NOT_REQUIRED": "VALUE",
+                    },
                 })
                 .expect(201)
                 .then(res => {
                     expect(res.body.form).toBe("FORM");
-                    expect(res.body.field.length).toBe(3);
-                    expect(res.body.field[0].field).toBe("CORRECT");
-                    expect(res.body.field[1].field).toBe("REQUIRED");
-                    expect(res.body.field[2].field).toBe("NOT_REQUIRED");
+                    expect(Object.keys(res.body.field)).toHaveLength(3);
+                    expect(res.body.field["CORRECT"]).toEqual(["VALUE"]);
+                    expect(res.body.field["REQUIRED"]).toEqual(["VALUE"]);
+                    expect(res.body.field["NOT_REQUIRED"]).toEqual(["VALUE"]);
                 });
         });
 
@@ -276,10 +262,7 @@ describe("Result entity", function () {
                 .set(...require("./mock/auth"))
                 .send({
                     form: "FORM",
-                    field: [{
-                        field: "REQUIRED",
-                        value: "VALUE",
-                    }]
+                    field: {"REQUIRED": "VALUE"}
                 })
                 .expect(400);
         });
