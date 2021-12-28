@@ -13,14 +13,14 @@ services:
       - ./data/mongo:/data/db:rw
       - ./init:/docker-entrypoint-initdb.d
 
-  auth:
+  form:
     image: node:latest
     container_name: doppelganger_api
     working_dir: /app
     command: npm start
     environment:
       DB_HOST: mongo
-      DB_USER: auth
+      DB_USER: form
       DB_PASSWORD: example
       CACHE_HOST: cache
     links:

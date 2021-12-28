@@ -2,7 +2,6 @@ const {Router} = require("express");
 const router = Router();
 const Form = require("../model/Form");
 const WrongIdError = require("../exception/WrongIdError");
-const {checkMethod} = require("../permission/methodPermission");
 const {FORM} = require("../permission/entity");
 const {GET, POST, PUT, DELETE} = require("../permission/method");
 const permissionCheck = require("../permission/check");

@@ -7,7 +7,7 @@ try {
     app.use(require("./permission"));
 
     app.get("/", (req, res) => {
-        res.send("¬¬¬ FORMS, FORMS, FORMS");
+        res.send("<h1 style='display: flex; align-items: center; justify-content: center; height: 100%'>¬¬¬ FORMS, FORMS, FORMS</h1>");
     });
 
     app.use("/form/", require("./view/form"));
